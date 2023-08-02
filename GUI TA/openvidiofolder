@@ -1,0 +1,60 @@
+from PySide2.QtCore import QUrl
+from PySide2.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout
+from PySide2.QtMultimedia import QMediaPlayer, QMediaContent
+from PySide2.QtMultimediaWidgets import QVideoWidget
+import sys
+from PySide2.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QFileDialog
+from PySide2.QtCore import (QUrl, Qt)
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        
+        
+
+        # membuat objek QMediaPlayer dan QVideoWidget
+        self.media_player = QMediaPlayer()
+        self.video_widget = QVideoWidget()
+        
+        
+
+        # menghubungkan objek QMediaPlayer dengan objek QVideoWidget
+        self.media_player.setVideoOutput(self.video_widget)
+        default_path = "C:/multi-pose-landmark-mediapipe-main/fault"
+
+        # memuat media file ke dalam objek QMediaPlayer
+        filename, _ = QFileDialog.getOpenFileName(None,"open foto", default_path)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        
+
+        # Memuat foto dari file yang dipilih
+        # pixmap = QMediaPlayer(filename)
+        # file_path = 'C:/Users/LENOVO/Videos/Captures/Vidio Simulasi Program Komunikasi Data Project  Besar Kelompok.mp4'  # ganti dengan nama file video yang ingin dibuka
+        video_url = QUrl.fromLocalFile(filename)
+        video_content = QMediaContent(video_url)
+        self.media_player.setMedia(video_content)
+        
+
+        # memulai pemutaran video
+        self.media_player.play()
+
+        # menambahkan objek QVideoWidget ke dalam layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.video_widget)
+        
+
+        # membuat objek QWidget dan menambahkan layout ke dalamnya
+        widget = QWidget()
+        widget.setLayout(layout)
+        
+        # menambahkan objek QWidget ke dalam jendela utama
+        self.setCentralWidget(widget)
+
+        # mengatur ukuran jendela utama dan menampilkannya
+        
+        self.setGeometry(100, 100, 1024, 600)
+        self.show()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    sys.exit(app.exec_())

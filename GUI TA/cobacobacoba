@@ -1,0 +1,44 @@
+import cv2
+import os
+import time
+
+# Inisialisasi objek VideoCapture
+cap = cv2.VideoCapture(0)
+
+# Set ukuran frame yang diinginkan
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+time.sleep(1)
+# Baca frame dari kamera
+ret, frame = cap.read()
+
+# Jika frame berhasil dibaca
+if ret:
+
+    # Tentukan path folder untuk menyimpan foto
+    folder_path = '/path/to/folder/'
+
+    # Cek apakah folder sudah ada, jika belum buat folder baru
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # Tentukan nama file untuk menyimpan foto
+    filename = 'foto.jpg'
+
+    # Gabungkan path folder dengan nama file
+    file_path = os.path.join(folder_path, filename)
+
+    # Simpan foto ke dalam file
+    cv2.imwrite(file_path, frame)
+
+    # Tampilkan pesan berhasil
+    print('Foto berhasil disimpan di:', file_path)
+
+else:
+    # Tampilkan pesan gagal membaca frame
+    print('Gagal membaca frame dari kamera')
+
+# Hentikan kamera dan keluar dari program
+cap.release()
+cv2.destroyAllWindows()
